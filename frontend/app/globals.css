@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/* ---------- Tema (mobile-first, accesible, alto contraste) ---------- */
+@theme {
+  --color-bg: #0b1120;
+  --color-bg-soft: #111a2e;
+  --color-surface: #16213a;
+  --color-surface-2: #1d2b48;
+  --color-line: #2a3a5c;
+  --color-ink: #f1f5f9;
+  --color-ink-2: #aab6cc;
+  --color-ink-3: #6b7a96;
+  --color-brand: #38bdf8;
+  --color-brand-strong: #0ea5e9;
+  --color-ok: #34d399;
+  --color-warn: #fbbf24;
+  --color-bad: #f87171;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+/* Respeta usuarios que prefieren menos movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Foco visible para accesibilidad por teclado. */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

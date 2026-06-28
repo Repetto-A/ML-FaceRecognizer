@@ -1,0 +1,43 @@
+# systemd unit de ejemplo — ML-FaceRecognizer API (spec 05)
+#
+# Instalación en el VPS:
+#   sudo cp api/face-api.service /etc/systemd/system/face-api.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now face-api
+#   sudo systemctl status face-api
+#
+# Ajustá User/WorkingDirectory/paths según el deploy real. Los secretos van en el
+# EnvironmentFile (.env, fuera de git, permisos 600).
+
+[Unit]
+Description=ML-FaceRecognizer API (busqueda facial, CPU)
+After=network.target
+
+[Service]
+Type=simple
+User=faceapi
+Group=faceapi
+WorkingDirectory=/home/faceapi/face-api
+
+# Secretos y config (API_KEY, ALLOWED_ORIGINS, etc.). chmod 600.
+EnvironmentFile=/home/faceapi/face-api/.env
+
+# 1 worker: el modelo es pesado en RAM. Escalar con replicas si hace falta.
+ExecStart=/home/faceapi/face-api/.venv/bin/uvicorn api.main:app \
+    --host 127.0.0.1 \
+    --port 8000 \
+    --workers 1
+
+Restart=on-failure
+RestartSec=3
+
+# Endurecimiento basico del sandbox systemd.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+# Permitir escritura solo en las carpetas de datos del servicio.
+ReadWritePaths=/home/faceapi/face-api/index /home/faceapi/face-api/uploads
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,5 @@
+name,photo,status,contact,location,notes
+Juan Perez,juan_perez_1.jpg,buscado,+54 9 11 5555-1234,"Rosario, Santa Fe",Visto por ultima vez en 2019
+Juan Perez,juan_perez_2.jpg,buscado,+54 9 11 5555-1234,"Rosario, Santa Fe",Segunda foto de referencia
+Maria Gomez,maria_gomez.jpg,buscado,maria.familia@example.com,"Cordoba Capital",
+Carlos Ruiz,/ruta/absoluta/opcional/carlos.jpg,encontrado,,La Plata,Ejemplo de ruta directa
