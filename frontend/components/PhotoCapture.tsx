@@ -136,11 +136,11 @@ export default function PhotoCapture({ onChange, label = "Foto", disabled }: Pho
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-sm font-medium text-ink-2">{label}</span>
+      <span className="kicker">{label}</span>
 
       {mode === "camera" ? (
-        <div className="overflow-hidden rounded-2xl border border-line bg-black">
-          <div className="relative aspect-[3/4] w-full sm:aspect-video">
+        <div className="overflow-hidden rounded-[var(--radius-card)] border border-line-strong bg-ink">
+          <div className="relative aspect-[3/4] w-full sm:aspect-[4/3]">
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video
               ref={videoRef}
@@ -148,37 +148,40 @@ export default function PhotoCapture({ onChange, label = "Foto", disabled }: Pho
               muted
               className="h-full w-full object-cover"
             />
-            <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
+            {/* Guías de encuadre del rostro */}
+            <div className="pointer-events-none absolute inset-0 grid place-items-center">
+              <div className="h-3/5 w-2/5 rounded-[44%] border border-dashed border-bg/50" />
+            </div>
           </div>
           <div className="flex gap-2 p-3">
             <button
               type="button"
               onClick={capturePhoto}
-              className="flex-1 rounded-xl bg-brand px-4 py-2.5 font-medium text-bg transition hover:bg-brand-strong"
+              className="press flex-1 rounded-lg bg-brand px-4 py-2.5 font-medium text-bg transition-colors duration-300 hover:bg-brand-strong"
             >
               Tomar foto
             </button>
             <button
               type="button"
               onClick={cancelCamera}
-              className="rounded-xl border border-line px-4 py-2.5 text-ink-2 transition hover:text-ink"
+              className="press rounded-lg border border-line-strong px-4 py-2.5 text-bg/80 transition-colors hover:text-bg"
             >
               Cancelar
             </button>
           </div>
         </div>
       ) : previewUrl ? (
-        <div className="overflow-hidden rounded-2xl border border-line bg-surface">
-          <div className="relative aspect-[3/4] w-full sm:aspect-video">
+        <figure className="overflow-hidden rounded-[var(--radius-card)] border border-line-strong bg-surface-2">
+          <div className="relative aspect-[3/4] w-full sm:aspect-[4/3]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={previewUrl} alt="Vista previa de la foto seleccionada" className="h-full w-full object-contain" />
           </div>
-          <div className="flex gap-2 p-3">
+          <figcaption className="flex gap-2 border-t border-line p-3">
             <button
               type="button"
               onClick={clearPhoto}
               disabled={disabled}
-              className="rounded-xl border border-line px-4 py-2.5 text-ink-2 transition hover:text-ink disabled:opacity-50"
+              className="press rounded-lg border border-line px-4 py-2.5 text-sm text-ink-2 transition-colors hover:border-line-strong hover:text-ink disabled:opacity-50"
             >
               Quitar foto
             </button>
@@ -186,15 +189,15 @@ export default function PhotoCapture({ onChange, label = "Foto", disabled }: Pho
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
-              className="rounded-xl border border-line px-4 py-2.5 text-ink-2 transition hover:text-ink disabled:opacity-50"
+              className="press rounded-lg border border-line px-4 py-2.5 text-sm text-ink-2 transition-colors hover:border-line-strong hover:text-ink disabled:opacity-50"
             >
               Cambiar archivo
             </button>
-          </div>
-        </div>
+          </figcaption>
+        </figure>
       ) : (
         <div
-          className="flex flex-col items-center gap-4 rounded-2xl border-2 border-dashed border-line bg-surface px-4 py-8 text-center"
+          className="group flex flex-col items-center gap-5 rounded-[var(--radius-card)] border border-dashed border-line-strong bg-surface px-5 py-10 text-center transition-colors"
           onDragOver={(e) => {
             e.preventDefault();
             e.currentTarget.classList.add("border-brand");
@@ -207,21 +210,21 @@ export default function PhotoCapture({ onChange, label = "Foto", disabled }: Pho
             if (file) commitFile(file);
           }}
         >
-          <span aria-hidden className="grid h-12 w-12 place-items-center rounded-full bg-brand/15 text-brand">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <span aria-hidden className="grid h-14 w-14 place-items-center rounded-full bg-brand/10 text-brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z" />
               <circle cx="12" cy="13" r="3" />
             </svg>
           </span>
-          <p className="text-sm text-ink-2">
-            Sacá una foto con la cámara o subí un archivo.
+          <p className="max-w-xs text-sm leading-relaxed text-ink-2">
+            Arrastrá una foto acá, sacala con la cámara o elegí un archivo.
           </p>
           <div className="flex flex-col gap-2 sm:flex-row">
             <button
               type="button"
               onClick={startCamera}
               disabled={disabled || starting}
-              className="rounded-xl bg-brand px-4 py-2.5 font-medium text-bg transition hover:bg-brand-strong disabled:opacity-50"
+              className="press rounded-lg bg-brand px-5 py-2.5 font-medium text-bg transition-colors duration-300 hover:bg-brand-strong disabled:opacity-50"
             >
               {starting ? "Abriendo cámara…" : "Usar cámara"}
             </button>
@@ -229,7 +232,7 @@ export default function PhotoCapture({ onChange, label = "Foto", disabled }: Pho
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
-              className="rounded-xl border border-line px-4 py-2.5 text-ink transition hover:border-brand/60 disabled:opacity-50"
+              className="press rounded-lg border border-line-strong px-5 py-2.5 text-ink transition-colors hover:border-brand disabled:opacity-50"
             >
               Subir archivo
             </button>

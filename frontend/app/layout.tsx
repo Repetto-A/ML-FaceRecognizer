@@ -1,67 +1,70 @@
 import type { Metadata, Viewport } from "next";
-import Link from "next/link";
+import { Fraunces, Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import SiteHeader from "@/components/SiteHeader";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+  axes: ["opsz", "SOFT"],
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Reencuentros — Reconocimiento facial asistido",
+  title: "Reencuentros — búsqueda de personas por rostro",
   description:
-    "Herramienta de apoyo para reunir personas: registro familiar y búsqueda por foto. Las coincidencias son orientativas y requieren verificación humana.",
+    "Herramienta de apoyo para reunir familias: registro de personas y búsqueda por foto. Las coincidencias son orientativas y siempre requieren verificación humana.",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b1120",
+  themeColor: "#efe9dc",
 };
-
-function SiteHeader() {
-  return (
-    <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/80 backdrop-blur">
-      <nav className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-          <span
-            aria-hidden
-            className="grid h-8 w-8 place-items-center rounded-lg bg-brand/15 text-brand"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          </span>
-          <span>
-            Reencuentros<span className="text-brand">.</span>
-          </span>
-        </Link>
-        <div className="flex items-center gap-1 text-sm">
-          <Link
-            href="/registro"
-            className="rounded-lg px-3 py-1.5 text-ink-2 transition hover:bg-surface hover:text-ink"
-          >
-            Registrar
-          </Link>
-          <Link
-            href="/buscar"
-            className="rounded-lg bg-brand px-3 py-1.5 font-medium text-bg transition hover:bg-brand-strong"
-          >
-            Buscar
-          </Link>
-        </div>
-      </nav>
-    </header>
-  );
-}
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es">
+    <html lang="es" className={`${fraunces.variable} ${outfit.variable} ${jetbrains.variable}`}>
       <body>
+        <a
+          href="#contenido"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-bg"
+        >
+          Saltar al contenido
+        </a>
         <SiteHeader />
-        <main className="mx-auto max-w-3xl px-4 pb-20 pt-6">{children}</main>
-        <footer className="border-t border-line/60 px-4 py-6 text-center text-xs text-ink-3">
-          Herramienta de apoyo humanitario · Las coincidencias son orientativas y
-          deben verificarse siempre con la familia.
+        <main id="contenido" className="mx-auto w-full max-w-5xl px-5 pb-24 pt-10 sm:px-8">
+          {children}
+        </main>
+        <footer className="border-t border-line">
+          <div className="mx-auto flex max-w-5xl flex-col gap-4 px-5 py-10 sm:flex-row sm:items-end sm:justify-between sm:px-8">
+            <div className="flex flex-col gap-2">
+              <span className="font-serif text-lg text-ink">
+                Reencuentros<span className="text-brand">.</span>
+              </span>
+              <p className="max-w-sm text-sm leading-relaxed text-ink-2">
+                Apoyo humanitario para reunir familias. Las coincidencias son
+                orientativas y deben confirmarse con la familia antes de actuar.
+              </p>
+            </div>
+            <p className="kicker">
+              No identifica · sugiere · verificación humana
+            </p>
+          </div>
         </footer>
       </body>
     </html>
