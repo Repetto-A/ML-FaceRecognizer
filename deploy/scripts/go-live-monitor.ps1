@@ -51,9 +51,9 @@ function Test-ApiHealth {
 
 function Test-SearchViaVps {
     if (-not (Test-Path $DemoQuery)) { return "no_demo_image" }
-    $remote = "curl -s -X POST http://127.0.0.1:8100/search -H \"x-api-key: \$(grep ^API_KEY= /home/ubuntu/face-api/.env | cut -d= -f2)\" -F threshold=0.5 -F top_k=3 -F photo=@/tmp/angelina_query.jpg"
     scp -i $SshKey -q $DemoQuery "ubuntu@${VpsIp}:/tmp/angelina_query.jpg" 2>$null
-  $out = ssh -i $SshKey "ubuntu@${VpsIp}" $remote 2>$null
+    $cmd = 'API_KEY=$(grep ^API_KEY= /home/ubuntu/face-api/.env | cut -d= -f2); curl -s -X POST http://127.0.0.1:8100/search -H "x-api-key: $API_KEY" -F threshold=0.5 -F top_k=3 -F photo=@/tmp/angelina_query.jpg'
+    $out = ssh -i $SshKey "ubuntu@${VpsIp}" $cmd 2>$null
     return $out
 }
 
