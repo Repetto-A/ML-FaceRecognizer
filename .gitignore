@@ -45,5 +45,8 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Cursor (contiene config MCP con secretos — NUNCA commitear)
+.cursor/
+
 # Logs
 *.log

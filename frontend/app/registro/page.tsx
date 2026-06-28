@@ -3,7 +3,7 @@ import Link from "next/link";
 import RegisterForm from "@/components/RegisterForm";
 
 export const metadata: Metadata = {
-  title: "Registrar persona — Reencuentros",
+  title: "Registrar persona",
 };
 
 export default function RegistroPage() {

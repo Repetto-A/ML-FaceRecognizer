@@ -3,11 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const NAV = [
-  { href: "/registro", label: "Registrar" },
-  { href: "/buscar", label: "Buscar" },
-];
-
 export default function SiteHeader() {
   const pathname = usePathname();
 
@@ -17,38 +12,59 @@ export default function SiteHeader() {
         <Link
           href="/"
           className="group flex items-baseline gap-px font-serif text-xl tracking-tight text-ink"
-          aria-label="Reencuentros — inicio"
+          aria-label="Somos Huella — inicio"
         >
-          Reencuentros
+          Somos Huella
           <span className="text-brand transition-transform duration-300 group-hover:translate-y-[-2px]">
             .
           </span>
         </Link>
 
-        <div className="flex items-center gap-1">
-          {NAV.map((item) => {
-            const active = pathname === item.href;
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Registrar: enlace de texto con subrayado en pagina activa */}
+          {(() => {
+            const active = pathname === "/registro";
             return (
               <Link
-                key={item.href}
-                href={item.href}
+                href="/registro"
                 aria-current={active ? "page" : undefined}
                 className={
-                  "relative px-3 py-1.5 text-sm transition-colors " +
+                  "relative px-2 py-1.5 text-sm transition-colors " +
                   (active ? "text-ink" : "text-ink-2 hover:text-ink")
                 }
               >
-                {item.label}
+                Registrar
                 <span
                   aria-hidden
                   className={
-                    "absolute inset-x-3 -bottom-px h-px origin-left bg-brand transition-transform duration-300 " +
+                    "absolute inset-x-2 -bottom-px h-px origin-left bg-brand transition-transform duration-300 " +
                     (active ? "scale-x-100" : "scale-x-0")
                   }
                 />
               </Link>
             );
-          })}
+          })()}
+
+          {/* Buscar: CTA primario persistente (oxide) */}
+          {(() => {
+            const active = pathname === "/buscar";
+            return (
+              <Link
+                href="/buscar"
+                aria-current={active ? "page" : undefined}
+                className={
+                  "press inline-flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-sm font-medium text-bg transition-colors duration-300 " +
+                  (active ? "bg-brand-strong" : "bg-brand hover:bg-brand-strong")
+                }
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m21 21-4.3-4.3" />
+                </svg>
+                Buscar
+              </Link>
+            );
+          })()}
         </div>
       </nav>
     </header>

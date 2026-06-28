@@ -22,10 +22,40 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+const SITE_URL = "https://somoshuella.org";
+const SITE_DESCRIPTION =
+  "Reunimos familias por reconocimiento facial. Registrá a un ser querido con una foto; cuando alguien lo encuentre, su rostro los vuelve a conectar.";
+
 export const metadata: Metadata = {
-  title: "Reencuentros — búsqueda de personas por rostro",
-  description:
-    "Herramienta de apoyo para reunir familias: registro de personas y búsqueda por foto. Las coincidencias son orientativas y siempre requieren verificación humana.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Somos Huella — volver a encontrar a quien falta",
+    template: "%s · Somos Huella",
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: "Somos Huella",
+  keywords: [
+    "personas desaparecidas",
+    "reconocimiento facial",
+    "reencuentro de familias",
+    "búsqueda de personas",
+    "Somos Huella",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    url: SITE_URL,
+    siteName: "Somos Huella",
+    title: "Somos Huella — volver a encontrar a quien falta",
+    description:
+      "Cada rostro deja una huella. Registrá a quien buscás y, cuando alguien lo encuentre, su rostro los vuelve a conectar.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Somos Huella — volver a encontrar a quien falta",
+    description:
+      "Cada rostro deja una huella. Registrá a quien buscás y, cuando alguien lo encuentre, su rostro los vuelve a conectar.",
+  },
 };
 
 export const viewport: Viewport = {
@@ -54,8 +84,11 @@ export default function RootLayout({
           <div className="mx-auto flex max-w-5xl flex-col gap-4 px-5 py-10 sm:flex-row sm:items-end sm:justify-between sm:px-8">
             <div className="flex flex-col gap-2">
               <span className="font-serif text-lg text-ink">
-                Reencuentros<span className="text-brand">.</span>
+                Somos Huella<span className="text-brand">.</span>
               </span>
+              <p className="font-serif text-base italic text-brand">
+                Cada huella nos acerca a casa.
+              </p>
               <p className="max-w-sm text-sm leading-relaxed text-ink-2">
                 Apoyo humanitario para reunir familias. Las coincidencias son
                 orientativas y deben confirmarse con la familia antes de actuar.

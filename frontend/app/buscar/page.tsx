@@ -3,7 +3,7 @@ import Link from "next/link";
 import SearchCapture from "@/components/SearchCapture";
 
 export const metadata: Metadata = {
-  title: "Buscar por foto — Reencuentros",
+  title: "Buscar por foto",
 };
 
 export default function BuscarPage() {

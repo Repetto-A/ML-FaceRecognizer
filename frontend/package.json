@@ -2,7 +2,7 @@
   "name": "ml-facerecognizer-frontend",
   "version": "0.1.0",
   "private": true,
-  "description": "UI de registro y búsqueda facial para reencuentros — Next.js App Router",
+  "description": "Somos Huella — UI de registro y búsqueda facial (Next.js App Router)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

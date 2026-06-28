@@ -52,10 +52,11 @@ export default function Home() {
             a quien falta.
           </h1>
           <p className="max-w-[58ch] text-lg leading-relaxed text-ink-2 text-pretty">
-            Cuando hay muchas personas buscando a la vez, la memoria y las listas
-            no alcanzan. Esta herramienta compara rostros para sugerir{" "}
-            <span className="text-ink">posibles coincidencias</span> — y deja la
-            decisión en manos de las personas.
+            Cuando muchas familias buscan a la vez, la memoria y las listas no
+            alcanzan. Somos Huella convierte cada rostro en una huella y la
+            compara con el registro para sugerir{" "}
+            <span className="text-ink">posibles coincidencias</span>. La decisión
+            final siempre es de una persona.
           </p>
           <div className="mt-2 flex flex-wrap items-center gap-3">
             <Link

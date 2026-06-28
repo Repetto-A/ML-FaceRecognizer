@@ -1,9 +1,12 @@
-# ML-FaceRecognizer
+# Somos Huella
 
-Sistema de **reconocimiento facial para reencuentro de personas** (inspirado en el caso
-"Reencuentros Venezuela"). Familias registran personas desaparecidas con una foto;
-rescatistas suben la foto de alguien encontrado y el sistema devuelve **posibles
-coincidencias** para verificación humana.
+> Repositorio: `ML-FaceRecognizer` · Producto: **Somos Huella** ([somoshuella.org](https://somoshuella.org))
+
+Sistema de **reconocimiento facial para el reencuentro de personas**. Las familias
+registran a un ser querido con una foto; quien lo encuentra sube una foto y el sistema
+devuelve **posibles coincidencias** con el contacto de la familia, para verificación
+humana. El nombre refleja la idea: cada rostro deja una *huella* —y cada persona que
+falta deja una huella en quienes la buscan.
 
 > ⚠️ El sistema **no identifica** personas de forma automática. Devuelve *candidatos
 > probables* ordenados por similitud. La confirmación siempre es humana.

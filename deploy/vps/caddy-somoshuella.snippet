@@ -1,0 +1,21 @@
+# Pegar al final de /opt/projects/Caddyfile en el VPS
+# Luego: docker restart projects-caddy-1
+
+# API pública (indexer push, health, ops con API key)
+api.somoshuella.org {
+	encode zstd gzip
+	reverse_proxy 172.17.0.1:8100
+}
+
+# Frontend — ajustar upstream cuando Next.js esté en Docker
+# Opción A: contenedor en la red docker "projects" (nombre del servicio)
+# somoshuella.org, www.somoshuella.org {
+# 	encode zstd gzip
+# 	reverse_proxy somoshuella-web:3000
+# }
+
+# Frontend — activar cuando Next.js esté desplegado en el VPS (puerto 3000 o contenedor)
+# somoshuella.org, www.somoshuella.org {
+# 	encode zstd gzip
+# 	reverse_proxy 172.17.0.1:3000
+# }

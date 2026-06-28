@@ -27,7 +27,7 @@ Ejemplo `.env`:
 
 ```env
 API_KEY=cambiame-por-una-clave-larga-y-aleatoria
-ALLOWED_ORIGINS=https://reencuentros.app,https://www.reencuentros.app
+ALLOWED_ORIGINS=https://somoshuella.org,https://www.somoshuella.org
 MAX_UPLOAD_MB=10
 INDEX_DIR=./index
 DEFAULT_THRESHOLD=0.65

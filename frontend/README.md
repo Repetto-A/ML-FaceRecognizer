@@ -1,4 +1,4 @@
-# Frontend — ML-FaceRecognizer (Reencuentros)
+# Frontend — ML-FaceRecognizer (Somos Huella)
 
 UI móvil-first para **registro** (familias) y **búsqueda por foto** (personas en
 terreno), construida con **Next.js (App Router) + React 19 + TypeScript +
