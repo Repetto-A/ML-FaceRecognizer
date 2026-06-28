@@ -10,7 +10,6 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import List
 
-from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -26,8 +25,9 @@ class Settings(BaseSettings):
 
     # ── Seguridad ──────────────────────────────────────────
     API_KEY: str = ""
-    # CSV en entorno (ej. "https://app.com,https://www.app.com") → list[str]
-    ALLOWED_ORIGINS: List[str] = []
+    # CSV en entorno (ej. "https://app.com,https://www.app.com"). Tipo str para evitar
+    # que pydantic-settings intente parsear el env como JSON (falla con CSV simple).
+    ALLOWED_ORIGINS: str = ""
 
     # ── Uploads ────────────────────────────────────────────
     MAX_UPLOAD_MB: int = 10
@@ -42,15 +42,11 @@ class Settings(BaseSettings):
     SEARCH_RATE_LIMIT: str = "30/minute"
     REGISTER_RATE_LIMIT: str = "10/minute"
 
-    @field_validator("ALLOWED_ORIGINS", mode="before")
-    @classmethod
-    def _split_origins(cls, v: object) -> object:
-        """Acepta un CSV ("a,b,c") o una lista ya parseada."""
-        if v is None or v == "":
+    @property
+    def allowed_origins_list(self) -> List[str]:
+        if not self.ALLOWED_ORIGINS:
             return []
-        if isinstance(v, str):
-            return [o.strip() for o in v.split(",") if o.strip()]
-        return v
+        return [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]
 
     @property
     def max_upload_bytes(self) -> int:
