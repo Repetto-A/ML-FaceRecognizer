@@ -21,7 +21,11 @@ embeddings.json
 
 # Imágenes de prueba / personas (datos sensibles — NUNCA commitear)
 /photos/
-/registry/
+/registry/*
+!/registry/README.md
+!/registry/people.example.csv
+!/registry/photos/
+!/registry/photos/.gitkeep
 *.jpg
 *.jpeg
 *.png

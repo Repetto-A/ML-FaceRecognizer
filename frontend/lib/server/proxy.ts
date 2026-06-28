@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
 // Helpers SOLO para server-side (Route Handlers). Leen variables de entorno
 // privadas (NO NEXT_PUBLIC) para no exponer la API_KEY al navegador.
@@ -8,8 +10,32 @@ interface ProxyConfig {
   apiKey: string;
 }
 
+/** Lee frontend/.env.local (prioridad sobre env del sistema si el archivo existe). */
+function loadEnvLocal(): void {
+  const candidates = [
+    path.join(process.cwd(), ".env.local"),
+    path.join(process.cwd(), "frontend", ".env.local"),
+  ];
+  for (const envPath of candidates) {
+    if (!fs.existsSync(envPath)) continue;
+    const content = fs.readFileSync(envPath, "utf8");
+    for (const line of content.split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const eq = trimmed.indexOf("=");
+      if (eq === -1) continue;
+      const key = trimmed.slice(0, eq).trim();
+      const val = trimmed.slice(eq + 1).trim();
+      if (key === "API_URL") process.env.API_URL = val;
+      if (key === "API_KEY") process.env.API_KEY = val;
+    }
+    return;
+  }
+}
+
 /** Lee y valida la config del entorno del servidor. */
 function getConfig(): ProxyConfig | null {
+  loadEnvLocal();
   const apiUrl = process.env.API_URL;
   const apiKey = process.env.API_KEY;
   if (!apiUrl || !apiKey) return null;
