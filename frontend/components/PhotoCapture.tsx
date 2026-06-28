@@ -13,12 +13,14 @@ type Mode = "idle" | "camera";
 interface PhotoCaptureProps {
   /** Se llama con el File seleccionado, o null al limpiar. */
   onChange: (file: File | null) => void;
+  /** Foto externa (ej. demo precargada desde URL). */
+  presetFile?: File | null;
   /** Etiqueta accesible del bloque. */
   label?: string;
   disabled?: boolean;
 }
 
-export default function PhotoCapture({ onChange, label = "Foto", disabled }: PhotoCaptureProps) {
+export default function PhotoCapture({ onChange, presetFile, label = "Foto", disabled }: PhotoCaptureProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -58,6 +60,10 @@ export default function PhotoCapture({ onChange, label = "Foto", disabled }: Pho
     },
     [onChange, setPreview],
   );
+
+  useEffect(() => {
+    if (presetFile) commitFile(presetFile);
+  }, [presetFile, commitFile]);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];

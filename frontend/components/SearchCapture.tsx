@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useCallback, useState } from "react";
 import PhotoCapture from "@/components/PhotoCapture";
 import MatchResults from "@/components/MatchResults";
+import DemoSearchLoader from "@/components/DemoSearchLoader";
 import { errorMessage, searchFace } from "@/lib/api";
 import type { SearchResponse } from "@/lib/types";
 
@@ -17,6 +18,7 @@ const DEFAULT_TOP_K = 5;
 
 export default function SearchCapture() {
   const [photo, setPhoto] = useState<File | null>(null);
+  const [demoLabel, setDemoLabel] = useState<string | null>(null);
   const [threshold, setThreshold] = useState(DEFAULT_THRESHOLD);
   const [topK, setTopK] = useState(DEFAULT_TOP_K);
   const [state, setState] = useState<State>({ kind: "idle" });
@@ -25,9 +27,16 @@ export default function SearchCapture() {
 
   function handlePhotoChange(file: File | null) {
     setPhoto(file);
+    if (!file) setDemoLabel(null);
     // Al cambiar la foto, descartamos resultados anteriores.
     if (state.kind === "done" || state.kind === "error") setState({ kind: "idle" });
   }
+
+  const handleDemoLoad = useCallback((file: File, label: string) => {
+    setPhoto(file);
+    setDemoLabel(label);
+    setState({ kind: "idle" });
+  }, []);
 
   async function handleSearch() {
     if (!photo) return;
@@ -44,9 +53,22 @@ export default function SearchCapture() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_minmax(280px,360px)] lg:items-start">
+      <Suspense fallback={null}>
+        <DemoSearchLoader onLoad={handleDemoLoad} />
+      </Suspense>
       <div className="flex flex-col gap-6">
+        {demoLabel && (
+          <p className="border-l-2 border-brand bg-brand/5 px-4 py-3 text-sm text-ink-2">
+            Foto demo precargada: <span className="font-medium text-ink">{demoLabel}</span>.
+            Pulsa «Buscar coincidencias» o probá otra en{" "}
+            <a href="/ejemplos" className="text-brand underline decoration-line underline-offset-2">
+              Ejemplos
+            </a>.
+          </p>
+        )}
         <PhotoCapture
           label="Foto de la persona encontrada"
+          presetFile={photo}
           onChange={handlePhotoChange}
           disabled={searching}
         />

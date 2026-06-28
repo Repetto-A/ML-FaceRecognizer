@@ -72,6 +72,12 @@ export default function Home() {
             >
               Registrar a una persona
             </Link>
+            <Link
+              href="/ejemplos"
+              className="group inline-flex items-center gap-2 px-2 py-3 text-sm text-ink-2 transition-colors hover:text-brand"
+            >
+              Ver ejemplos demo
+            </Link>
           </div>
         </div>
 

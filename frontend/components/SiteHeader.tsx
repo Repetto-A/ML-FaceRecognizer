@@ -21,6 +21,29 @@ export default function SiteHeader() {
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          {(() => {
+            const active = pathname === "/ejemplos";
+            return (
+              <Link
+                href="/ejemplos"
+                aria-current={active ? "page" : undefined}
+                className={
+                  "relative px-2 py-1.5 text-sm transition-colors " +
+                  (active ? "text-ink" : "text-ink-2 hover:text-ink")
+                }
+              >
+                Ejemplos
+                <span
+                  aria-hidden
+                  className={
+                    "absolute inset-x-2 -bottom-px h-px origin-left bg-brand transition-transform duration-300 " +
+                    (active ? "scale-x-100" : "scale-x-0")
+                  }
+                />
+              </Link>
+            );
+          })()}
+
           {/* Registrar: enlace de texto con subrayado en pagina activa */}
           {(() => {
             const active = pathname === "/registro";

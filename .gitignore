@@ -32,6 +32,7 @@ embeddings.json
 *.webp
 *.heic
 !docs/**/*.png
+!frontend/public/demo/*.jpg
 
 # Node / frontend
 node_modules/
