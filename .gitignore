@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# PyTorch / modelos / datos
+*.pt
+*.pth
+*.onnx
+/data/
+/uploads/
+*.npz
+*.npy
+index.json
+embeddings.json
+
+# Imágenes de prueba / personas (datos sensibles — NUNCA commitear)
+/photos/
+/registry/
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.heic
+!docs/**/*.png
+
+# Node / frontend
+node_modules/
+.next/
+out/
+dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log

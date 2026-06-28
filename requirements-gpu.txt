@@ -1,0 +1,18 @@
+# LOCAL (RTX 5060 / Blackwell sm_120) — indexado en GPU
+# Instalar torch/torchvision desde el índice CUDA 12.8:
+#   pip install -r requirements-gpu.txt --extra-index-url https://download.pytorch.org/whl/cu128
+--extra-index-url https://download.pytorch.org/whl/cu128
+
+# Validado en RTX 5060 Laptop (Blackwell sm_120): torch 2.11.0+cu128, CUDA 12.8 → cuda.is_available()=True
+torch==2.11.0
+torchvision>=0.22.0
+
+# facenet-pytorch puede intentar fijar un torch viejo; si da conflicto instalar con --no-deps
+facenet-pytorch>=2.6.0
+
+numpy>=1.24.0
+pillow>=10.0.0
+opencv-python>=4.8.0
+scikit-learn>=1.3.0
+tqdm>=4.66.0
+pandas>=2.0.0
