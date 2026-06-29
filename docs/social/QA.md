@@ -38,12 +38,14 @@ Checklist de verificación de los assets generados. Fecha de grabación: 2026-06
 | 8a | `mobile/08_carrusel_1_angelina.mp4` | 9.0s | 1080×1920 | ✅ Angelina | ✅ | ✅ PASS |
 | 8b | `mobile/08_carrusel_2_paul.mp4` | 9.0s | 1080×1920 | ✅ Paul | ✅ | ✅ PASS |
 | 8c | `mobile/08_carrusel_3_shea.mp4` | 8.9s | 1080×1920 | ✅ Shea | ✅ | ✅ PASS |
+| 9 | `mobile/09_upload_es_celebridad.mp4` | 28.6s | 1080×1920 | ✅ subir foto → cartel "¡Es Angelina Jolie! 95%" + tarjeta real | ✅ | ✅ PASS |
 
 ## Screenshots (`screenshots/`)
 
 `01_home_hero` · `02_ejemplos` · `03_buscar_preload` · `04_resultado_angelina` (95%) ·
 `05_repo` · `06_prod_home` (en vivo) · `07_landing_steps` · `08_mobile_preload` ·
-`09_mobile_resultado` (95%) · `10_mobile_home`. ✅ Todos legibles.
+`09_mobile_resultado` (95%) · `10_mobile_home` · `11_upload_preview` · `12_es_angelina` (cartel
+"¡Es Angelina Jolie!"). ✅ Todos legibles.
 
 ## Cumplimiento de restricciones
 

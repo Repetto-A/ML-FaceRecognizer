@@ -97,6 +97,16 @@ ubicación **La Guaira**.
 - **Clips:** `08_carrusel_1_angelina` (95% · La Guaira) · `08_carrusel_2_paul` (Valencia) ·
   `08_carrusel_3_shea` (Mérida). Cada uno: búsqueda → coincidencia → badge.
 
+### 9. "Subí una foto → ¡Es tal celebridad!" — ~29s · `videos/mobile/09_upload_es_celebridad.mp4`
+- **Objetivo:** demo divertida y directa: el usuario **sube una foto** (no usa el botón demo) y
+  aparece un cartel grande tipo *"¡Es Angelina Jolie!"*. Pensado para enganchar en stories/reels.
+- **Escenas:** título "Subí una foto" → `/buscar` con badge "Toca 'Subir archivo'" → preview de la
+  foto subida → *Buscar coincidencias* → **cartel central "¡Es Angelina Jolie! · 95% de parecido"**
+  (con aclaración de verificación humana) → tarjeta de resultado real (95% · La Guaira · +1 555 0101)
+  → cierre "Probalo vos · somoshuella.org · demo con actores".
+- **Nota de tono:** el cartel "¡Es …!" es un gancho lúdico; el encabezado del modal y la app siguen
+  diciendo **"posible coincidencia"** y **"el sistema no identifica de forma automática"**.
+
 ---
 
 ## Restricciones (cumplidas en todos los assets)
