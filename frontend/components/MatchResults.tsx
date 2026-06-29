@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { Match, SearchResponse } from "@/lib/types";
 
 const DEFAULT_DISCLAIMER = "Posible coincidencia — verificar con la familia";
@@ -37,6 +38,10 @@ function ConfidenceBar({ similarity }: { similarity: number }) {
 function MatchCard({ match, index }: { match: Match; index: number }) {
   const pct = Math.round(Math.max(0, Math.min(1, match.similarity)) * 100);
   const tier = confidenceTier(match.similarity);
+  // `image_path` puede ser una ruta del servidor no accesible por el navegador (o una
+  // imagen ausente). Si no carga, caemos con elegancia al ícono en vez de una imagen rota.
+  const [imgFailed, setImgFailed] = useState(false);
+  const showImage = Boolean(match.image_path) && !imgFailed;
   return (
     <article
       className="reveal flex flex-col gap-4 rounded-[var(--radius-card)] border border-line bg-surface p-4 transition-colors hover:border-line-strong"
@@ -44,9 +49,14 @@ function MatchCard({ match, index }: { match: Match; index: number }) {
     >
       <div className="flex gap-4">
         <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-line bg-surface-2">
-          {match.image_path ? (
+          {showImage ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={match.image_path} alt={`Foto registrada de ${match.name}`} className="h-full w-full object-cover" />
+            <img
+              src={match.image_path}
+              alt={`Foto registrada de ${match.name}`}
+              onError={() => setImgFailed(true)}
+              className="h-full w-full object-cover"
+            />
           ) : (
             <div className="grid h-full w-full place-items-center text-ink-3">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
