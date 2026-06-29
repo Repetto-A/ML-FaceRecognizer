@@ -1,8 +1,13 @@
 // Contrato de la API de reconocimiento facial (backend FastAPI).
 // Estos tipos son compartidos por el cliente y por los Route Handlers proxy.
 
-/** Estado declarado de una persona registrada por la familia. */
+/** Estado en la UI del formulario de registro. */
 export type PersonStatus = "desaparecido" | "buscando" | "encontrado";
+
+/** Mapea labels de la UI al status del índice (search filtra `buscado`). */
+export function registerStatusForApi(status: PersonStatus): "buscado" | "encontrado" {
+  return status === "encontrado" ? "encontrado" : "buscado";
+}
 
 /** Una posible coincidencia devuelta por POST /search. */
 export interface Match {

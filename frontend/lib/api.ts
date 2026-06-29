@@ -1,5 +1,6 @@
 import {
   ApiError,
+  registerStatusForApi,
   type RegisterInput,
   type RegisterResponse,
   type SearchParams,
@@ -50,7 +51,7 @@ export async function registerPerson(
   const formData = new FormData();
   formData.append("photo", photo);
   formData.append("name", input.name);
-  formData.append("status", input.status);
+  formData.append("status", registerStatusForApi(input.status));
   if (input.contact) formData.append("contact", input.contact);
   if (input.location) formData.append("location", input.location);
 

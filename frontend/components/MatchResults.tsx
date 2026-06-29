@@ -34,9 +34,18 @@ function ConfidenceBar({ similarity }: { similarity: number }) {
   );
 }
 
+function resolveMatchImage(path: string): string | null {
+  if (!path) return null;
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
+    return path;
+  }
+  return null;
+}
+
 function MatchCard({ match, index }: { match: Match; index: number }) {
   const pct = Math.round(Math.max(0, Math.min(1, match.similarity)) * 100);
   const tier = confidenceTier(match.similarity);
+  const imgSrc = resolveMatchImage(match.image_path);
   return (
     <article
       className="reveal flex flex-col gap-4 rounded-[var(--radius-card)] border border-line bg-surface p-4 transition-colors hover:border-line-strong"
@@ -44,9 +53,9 @@ function MatchCard({ match, index }: { match: Match; index: number }) {
     >
       <div className="flex gap-4">
         <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-line bg-surface-2">
-          {match.image_path ? (
+          {imgSrc ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={match.image_path} alt={`Foto registrada de ${match.name}`} className="h-full w-full object-cover" />
+            <img src={imgSrc} alt={`Foto registrada de ${match.name}`} className="h-full w-full object-cover" />
           ) : (
             <div className="grid h-full w-full place-items-center text-ink-3">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
