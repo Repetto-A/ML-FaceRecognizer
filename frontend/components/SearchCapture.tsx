@@ -25,12 +25,17 @@ export default function SearchCapture() {
 
   const canSearch = photo !== null && state.kind !== "searching";
 
-  function handlePhotoChange(file: File | null) {
+  const handlePhotoChange = useCallback((file: File | null) => {
     setPhoto(file);
     if (!file) setDemoLabel(null);
-    // Al cambiar la foto, descartamos resultados anteriores.
-    if (state.kind === "done" || state.kind === "error") setState({ kind: "idle" });
-  }
+    // Al cambiar la foto, descartamos resultados anteriores. Usamos la forma
+    // funcional de setState para que esta callback sea estable (deps []), y así
+    // `commitFile` en PhotoCapture no cambie de identidad en cada render (lo que
+    // re-disparaba su useEffect y reseteaba los resultados recién mostrados).
+    setState((prev) =>
+      prev.kind === "done" || prev.kind === "error" ? { kind: "idle" } : prev,
+    );
+  }, []);
 
   const handleDemoLoad = useCallback((file: File, label: string) => {
     setPhoto(file);
