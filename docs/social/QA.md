@@ -64,11 +64,12 @@ Checklist de verificación de los assets generados. Fecha de grabación: 2026-06
    resultado persistente **una vez mergeado y redeployado** este PR (la demo de prod actual aún
    tiene el bug de reseteo). El resto de páginas (home, ejemplos, landing) ya funcionan en prod y
    se muestran en vivo en el video 4.
-2. **Miniatura del match:** la tarjeta de resultado muestra un placeholder roto donde iría la foto
-   registrada, porque la API devuelve `image_path` como **ruta absoluta del servidor**
-   (`/workspace/...`/`/home/...`), no resoluble desde el navegador. Es comportamiento real de prod.
-   Recomendado (fuera de alcance de este PR): que la API exponga una URL web del registro o que
-   `MatchResults` haga fallback con `onError` al ícono placeholder.
+2. **Miniatura del match — RESUELTO:** ahora la tarjeta muestra la **foto registrada real** del
+   rostro (verificación visual). La API expone `GET /people/{id}/photo` (con `x-api-key`) y el
+   frontend la sirve vía el proxy `/api/image/[id]` (la key queda del lado servidor). Si la API
+   no tiene la foto en disco (404) o falla la carga, `MatchResults` cae con elegancia al ícono de
+   persona. En producción se verá la foto siempre que el servidor de la API tenga el archivo
+   (`image_path`) disponible.
 3. **Duraciones:** algunos clips quedaron más cortos que el target nominal (p. ej. demo ~34s vs
    60s). El contenido está completo; clips más cortos suelen rendir mejor en social.
 4. **Grabación:** Playwright `recordVideo` (sin barra de direcciones del navegador). Demos de
