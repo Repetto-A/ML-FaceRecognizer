@@ -38,10 +38,14 @@ function ConfidenceBar({ similarity }: { similarity: number }) {
 function MatchCard({ match, index }: { match: Match; index: number }) {
   const pct = Math.round(Math.max(0, Math.min(1, match.similarity)) * 100);
   const tier = confidenceTier(match.similarity);
-  // `image_path` puede ser una ruta del servidor no accesible por el navegador (o una
-  // imagen ausente). Si no carga, caemos con elegancia al ícono en vez de una imagen rota.
+  // La foto registrada se sirve por el proxy `/api/image/{id}` (que agrega la x-api-key del
+  // lado servidor). Mostramos la cara real para la verificación visual; si la API no tiene la
+  // foto (404) o falla la carga, caemos con elegancia al ícono en vez de una imagen rota.
   const [imgFailed, setImgFailed] = useState(false);
-  const showImage = Boolean(match.image_path) && !imgFailed;
+  const photoUrl = match.person_id
+    ? `/api/image/${encodeURIComponent(match.person_id)}`
+    : null;
+  const showImage = Boolean(photoUrl) && !imgFailed;
   return (
     <article
       className="reveal flex flex-col gap-4 rounded-[var(--radius-card)] border border-line bg-surface p-4 transition-colors hover:border-line-strong"
@@ -52,7 +56,7 @@ function MatchCard({ match, index }: { match: Match; index: number }) {
           {showImage ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={match.image_path}
+              src={photoUrl as string}
               alt={`Foto registrada de ${match.name}`}
               onError={() => setImgFailed(true)}
               className="h-full w-full object-cover"

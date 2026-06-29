@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 import threading
 import uuid
 from contextlib import asynccontextmanager
@@ -29,6 +30,7 @@ from fastapi import (
     status,
 )
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
@@ -265,6 +267,35 @@ async def people(
         records = [r for r in records if r.status == status_filter]
     page = records[offset : offset + limit]
     return [_record_to_summary(r) for r in page]
+
+
+@app.get("/people/{person_id}/photo")
+async def person_photo(
+    request: Request,
+    person_id: str,
+    _key: str = Depends(require_api_key),
+) -> FileResponse:
+    """
+    Devuelve la **foto registrada** de una persona para la verificación visual humana
+    (quien encontró a alguien compara la cara contra el registro de la familia).
+
+    La foto se lee del `image_path` guardado en el índice (ruta del servidor, no expuesta
+    al cliente). 404 si el registro no existe o el archivo no está disponible.
+    """
+    store: IndexStore = _get_store(request)
+    rec = next((r for r in store.records if r.id == person_id), None)
+    if rec is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No existe un registro con id '{person_id}'.",
+        )
+    path = rec.image_path
+    if not path or not os.path.isfile(path):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="La foto registrada no está disponible en el servidor.",
+        )
+    return FileResponse(path, headers={"Cache-Control": "private, max-age=300"})
 
 
 @app.delete("/people/{person_id}", response_model=DeleteResponse)

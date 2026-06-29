@@ -91,3 +91,46 @@ export async function proxyFormData(
 
   return NextResponse.json(data, { status: upstream.status });
 }
+
+/**
+ * Reenvía la foto registrada de una persona desde `${API_URL}/people/{id}/photo`,
+ * agregando el header `x-api-key`. Devuelve los bytes de la imagen tal cual (la API key
+ * nunca llega al navegador). Si no hay foto, propaga el status (típicamente 404) para que
+ * el `<img>` dispare su fallback.
+ */
+export async function proxyPersonPhoto(personId: string): Promise<NextResponse> {
+  const config = getConfig();
+  if (!config) {
+    return NextResponse.json(
+      { message: "El servidor no está configurado (faltan API_URL o API_KEY)." },
+      { status: 500 },
+    );
+  }
+
+  let upstream: Response;
+  try {
+    upstream = await fetch(
+      `${config.apiUrl}/people/${encodeURIComponent(personId)}/photo`,
+      { headers: { "x-api-key": config.apiKey } },
+    );
+  } catch {
+    return NextResponse.json(
+      { message: "No se pudo contactar con la API de reconocimiento." },
+      { status: 502 },
+    );
+  }
+
+  if (!upstream.ok) {
+    return NextResponse.json(
+      { message: "Foto no disponible." },
+      { status: upstream.status },
+    );
+  }
+
+  const body = await upstream.arrayBuffer();
+  const contentType = upstream.headers.get("content-type") ?? "image/jpeg";
+  return new NextResponse(body, {
+    status: 200,
+    headers: { "Content-Type": contentType, "Cache-Control": "private, max-age=300" },
+  });
+}
